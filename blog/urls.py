@@ -16,8 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from posts.views import first_view
-from posts.views import redirect_to_youtube_view
+from posts.views import main_page_view, posts_view
 
 
 """
@@ -29,6 +28,7 @@ VIEW: client_request --> first_view(client_request)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', first_view),
-    path('youtube/', redirect_to_youtube_view)
+    path('', main_page_view),
+    path('posts/', posts_view)
+
 ]

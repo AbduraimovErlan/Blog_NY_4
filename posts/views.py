@@ -1,14 +1,18 @@
-from django.http import HttpResponse
-from django.shortcuts import redirect
+from django.shortcuts import render
+from posts.models import Post
 
-""" MVC - Model View Controller """
 
-def first_view(request):
+def main_page_view(request):
     if request.method == 'GET':
-        return HttpResponse('Hello! its first view ;)')
+        return render(request, 'layouts/index.html')
 
 
+def posts_view(request):
+    if request.method == 'GET':
+        posts = Post.objects.all()
 
-def redirect_to_youtube_view(request): #перенаправление на существуеший адресс сайта
-    if request.method == "GET":
-        return redirect('https://www.youtube.com/')
+    context = {
+        'posts': posts
+    }
+
+    return render(request, 'posts/posts.html', context=context)
