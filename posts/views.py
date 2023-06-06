@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from posts.models import Post
+from posts.models import Post, Comment
 
 
 def main_page_view(request):
@@ -21,9 +21,11 @@ def posts_view(request):
 def post_detail_view(request, id):
     if request.method == 'GET':
         post = Post.objects.get(id=id)
+        # comments = Comment.objects.filter(post_id=id)
 
         context = {
-            'post': post
+            'post': post,
+            'comments': post.comment_set.all()
         }
 
         return render(request, 'posts/detail.html', context=context)

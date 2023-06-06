@@ -6,13 +6,37 @@
         width: 80%;
         margin-left: 10%;
     }
+    .post_block >img{
+    width: 100%;
+    }
     .dates {
+        margin-top 20px;
         display: flex;
         justify-content: space-between;
     }
+    .comments{
+        margin-top: 30px;
+    }
+    .comment_block {
+        background: #242b2e;
+        margin-bottom: 30px;
+        color: #ffffff;
+        padding: 10;
+
+    }
+
+
+
+
 
 </style>
 <div class="post_block">
+    {% if post.image %}
+        <img src="/media/{{ post.image }}" alt="">
+    {% else %}
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_xZkeWTPAn1KbsTSI3mnVVdibJor8JJ12YA&usqp=CAU"
+         alt="">
+    {% endif %}
     <div class="info">
         <h1>{{ post.title }}</h1>
         <h4>{{ post.description }}</h4>
@@ -22,6 +46,13 @@
             <h5>Modified Date {{ post.modified_date }}</h5>
         </div>
     </div>
+    <div class="comments">
+        {% for comment in comments %}
+        <div class="comment_block">
+            <h5>{{ comment.text }}</h5>
+        </div>
+        {% endfor %}
+    </div>
 </div>
 
-{% endblock%}
+{% endblock %}
