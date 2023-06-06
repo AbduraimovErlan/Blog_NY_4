@@ -1,0 +1,27 @@
+{% extends 'layouts/index.html' %}
+
+{% block content %}
+<style type="text/css">
+    .post_block {
+        width: 80%;
+        margin-left: 10%;
+    }
+    .dates {
+        display: flex;
+        justify-content: space-between;
+    }
+
+</style>
+<div class="post_block">
+    <div class="info">
+        <h1>{{ post.title }}</h1>
+        <h4>{{ post.description }}</h4>
+        <h5>Rate: {{ post.rate }}</h5>
+        <div class="dates">
+            <h5>Created Date {{ post.created_date }}</h5>
+            <h5>Modified Date {{ post.modified_date }}</h5>
+        </div>
+    </div>
+</div>
+
+{% endblock%}
