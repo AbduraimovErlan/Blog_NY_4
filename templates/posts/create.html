@@ -1,22 +1,9 @@
 {% extends 'layouts/index.html' %}
 
 {% block content %}
-  <from action="/posts/create/" method="post">
+  <form action="/posts/create/" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <p>
-      {{ errors.title_error }}
-      <input type="text" name="title" placeholder="Title">
-    </p>
-    <p>
-      {{ errors.description_error }}
-      <input type="text" name="description" placeholder="Description">
-    </p>
-    <p>
-      {{ errors.rate_error }}
-      <input type="number" name="rate" placeholder="Rate">
-    </p>
-
-    <input type="submit" value="Submit">
-
-  </from>
+    {{ form.as_p }}
+    <input type="submit" value="Create Post">
+  </form>
 {% endblock %}

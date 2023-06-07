@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from posts.models import Post, Comment
+from posts.forms import PostCreateForm
 
 
 def main_page_view(request):
@@ -33,26 +34,28 @@ def post_detail_view(request, id):
 
 def post_create_view(request):
     if request.method == 'GET':
-        return render(request, 'posts/create.html')
+        context = {
+            'form': PostCreateForm
+        }
+
+        return render(request, 'posts/create.html', context=context)
 
     if request.method == 'POST':
-        data = request.POST
-        errors = {}
+        data, files = request.POST, request.FILES
+        form = PostCreateForm(data, files)
+
+        if form.is_valid():
+            Post.objects.create(
+                image=form.cleaned_data.get('image'),
+                title=form.cleaned_data.get('title'),
+                description=form.cleaned_data.get('description'),
+                rate=form.cleaned_data.get('rate'),
+            )
+            return redirect('/posts')
+
+        return render(request, 'posts/create.html', context={
+            'form': form
+        })
 
 
-    if data.get('title').__len__() < 8:
-        errors['title_error'] = 'Min length 8 symbols'
 
-
-    if data.get('description').__len__() < 6:
-        errors['title_error'] = 'Min length 8 symbols'
-
-    if errors.keys().__len__() == 0:
-        Post.objects.create(
-            title=data.get('title'),
-            description=data.get('description'),
-            rate=data.get('rate')
-        )
-
-        return redirect('/posts/')
-    return render(request, 'posts/create.html', context={'errors': errors})
