@@ -10,7 +10,7 @@ from django.urls import path
 from blog import settings
 from posts.views import(
     main_page_view,
-    posts_view,
+    PostsCBV,
     post_detail_view,
     post_create_view
 )
@@ -26,7 +26,7 @@ VIEW: client_request --> first_view(client_request)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', main_page_view),
-    path('posts/', posts_view),
+    path('posts/', PostsCBV.as_view(template_name='posts/posts.html')),
     path('posts/<int:id>/', post_detail_view),
     path('posts/create/', post_create_view),
 

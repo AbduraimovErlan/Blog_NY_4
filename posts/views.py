@@ -1,5 +1,6 @@
 from django.db.models import Q
 from django.shortcuts import render, redirect
+from django.views.generic import ListView
 from posts.models import Post, Comment
 from posts.forms import PostCreateForm, CommentCreateForm
 from posts.constants import PAGINATION_LIMIT
@@ -48,6 +49,39 @@ def posts_view(request):
 
 
         return render(request, 'posts/posts.html', context=context)
+
+class PostsCBV(ListView):
+    model = Post
+    queryset = Post.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        posts = self.queryset
+        search = request.GET.get('search')
+        page = int(request.GET.get('page', 1))
+
+        max_page = posts.__len__() / PAGINATION_LIMIT
+        if round(max_page) < max_page:
+            max_page = round(max_page) + 1
+        else:
+            max_page = round(max_page)
+
+        posts = posts[PAGINATION_LIMIT * (page-1):PAGINATION_LIMIT * page]
+
+        if search:
+            posts = posts.filter(
+                Q(title__icontains=search) |
+                Q(description__icontains=search))
+
+        context = {
+            'posts': posts,
+            'user': request.user,
+            'pages': range(1, max_page+1)
+        }
+
+
+        return render(request, self.template_name, context=context)
+
+
 
 
 def post_detail_view(request, id):
