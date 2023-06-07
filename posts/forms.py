@@ -7,3 +7,5 @@ class PostCreateForm(forms.Form):
     description = forms.CharField(widget=forms.Textarea())
     rate = forms.FloatField()
 
+class CommentCreateForm(forms.Form):
+    text = forms.CharField(min_length=2, max_length=256)
