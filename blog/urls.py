@@ -18,7 +18,7 @@ from blog import settings
 from django.contrib import admin
 from django.conf.urls.static import static
 from django.urls import path
-from posts.views import main_page_view, posts_view, post_detail_view
+from posts.views import main_page_view, posts_view, post_detail_view, post_create_view
 
 """
 client --> /
@@ -31,7 +31,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', main_page_view),
     path('posts/', posts_view),
-    path('posts/<int:id>/', post_detail_view)
+    path('posts/<int:id>/', post_detail_view),
+    path('posts/create/', post_create_view)
 
 
 ]
